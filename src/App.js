@@ -1,8 +1,9 @@
+import {Modal} from "./Modal";
 
 function App() {
   return (
     <div className="App">
-      <p>Hallo</p>
+        <Modal number={1234} name={"Peterle"} />
     </div>
   );
 }
