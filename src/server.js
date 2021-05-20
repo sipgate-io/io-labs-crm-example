@@ -19,7 +19,9 @@ const io = require('socket.io')(httpServer, {
 });
 
 
+let client;
 io.on("connection", (socket) => {
+  client = socket;
   socket.emit("test", "Hello!");
 })
 
@@ -44,18 +46,26 @@ webhookModule
 
     webhookServer.onNewCall(async (newCallEvent) => {
       try {
+
+        const number = newCallEvent.from;
         let name = "Unknown";
         const contacts = await getContacts();
-        
-        if (contacts[newCallEvent.from]) {
-          name = contacts[newCallEvent.from].name;
+        if (contacts[number]) {
+          name = contacts[number].name;
         }
+        console.log(name);
+        client.emit("incoming", {number: number, name: name} );
 
-        console.log(`Call from ${name}`);
       } catch (error) {
         console.error("Could not find contacts.json: " + error.message);
       }
 
       console.log(`New call from ${newCallEvent.from} to ${newCallEvent.to}`);
+
+    });
+
+    webhookServer.onHangUp((hangUpEvent) => {
+      console.log("Hangup!!");
+      client.emit("hangup");
     });
   });

@@ -25,3 +25,4 @@ yarn-error.log*
 contacs.json
 .env
 .idea/
+contacts.json
