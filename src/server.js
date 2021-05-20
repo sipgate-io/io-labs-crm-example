@@ -1,10 +1,11 @@
-require("dotenv").config();
+//require("dotenv").config();
 const { createWebhookModule } = require("sipgateio");
 const fs = require("fs");
 const util = require("util");
 
 const readFile = util.promisify(fs.readFile);
-const contacts = async () => {
+
+async function getContacts() {
   const contactsData = await readFile("contacts.json");
   return JSON.parse(contactsData);
 };
@@ -31,7 +32,8 @@ webhookModule
     webhookServer.onNewCall(async (newCallEvent) => {
       try {
         let name = "Unknown";
-
+        const contacts = await getContacts();
+        
         if (contacts[newCallEvent.from]) {
           name = contacts[newCallEvent.from].name;
         }
