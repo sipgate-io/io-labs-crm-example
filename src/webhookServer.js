@@ -46,4 +46,9 @@ webhookModule
       console.log("Hangup!!");
       client.emit("hangup");
     });
+
+    webhookServer.onAnswer(() => {
+      console.log("Answer");
+      client.emit("answer");
+    })
   });
