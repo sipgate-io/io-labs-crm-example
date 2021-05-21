@@ -1,34 +1,13 @@
-const { createWebhookModule } = require("sipgateio");
-const fs = require("fs");
-const util = require("util");
-require('dotenv').config()
-
-const readFile = util.promisify(fs.readFile);
-
-async function getContacts() {
-  const contactsData = await readFile("contacts.json");
-  return JSON.parse(contactsData);
-};
-
-
-const httpServer = require('http').createServer();
-const io = require('socket.io')(httpServer, {
-  cors: {
-    origin: "http://localhost:3000",
-  }
-});
-
-
-let client;
-io.on("connection", (socket) => {
-  client = socket;
-})
-
-httpServer.listen(8090);
+import { createWebhookModule } from "sipgateio";
+import {getContacts} from "./contacts.js"
+import {createSocket} from "./socket.js"
+import * as dot from "dotenv"
+dot.config()
 
 const serverAddress = process.env.SIPGATE_WEBHOOK_SERVER_ADDRESS;
 const serverPort = process.env.SIPGATE_WEBHOOK_PORT;
 
+const client = createSocket();
 const webhookModule = createWebhookModule();
 webhookModule
   .createServer({
@@ -56,7 +35,7 @@ webhookModule
         client.emit("incoming", {number: number, name: name} );
 
       } catch (error) {
-        console.error("Could not find contacts.json: " + error.message);
+        console.error(error.message);
       }
 
       console.log(`New call from ${newCallEvent.from} to ${newCallEvent.to}`);
