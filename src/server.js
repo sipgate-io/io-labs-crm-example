@@ -1,6 +1,7 @@
 const { createWebhookModule } = require("sipgateio");
 const fs = require("fs");
 const util = require("util");
+require('dotenv').config()
 
 const readFile = util.promisify(fs.readFile);
 
@@ -9,7 +10,6 @@ async function getContacts() {
   return JSON.parse(contactsData);
 };
 
-const port = 8080;
 
 const httpServer = require('http').createServer();
 const io = require('socket.io')(httpServer, {
@@ -22,18 +22,17 @@ const io = require('socket.io')(httpServer, {
 let client;
 io.on("connection", (socket) => {
   client = socket;
-  socket.emit("test", "Hello!");
 })
 
 httpServer.listen(8090);
 
-const serverAddress =
-  process.env.SIPGATE_WEBHOOK_SERVER_ADDRESS || "https://example.com:8080";
+const serverAddress = process.env.SIPGATE_WEBHOOK_SERVER_ADDRESS;
+const serverPort = process.env.SIPGATE_WEBHOOK_PORT;
 
 const webhookModule = createWebhookModule();
 webhookModule
   .createServer({
-    port,
+    port: serverPort,
     serverAddress,
   })
   .then((webhookServer) => {
@@ -64,7 +63,7 @@ webhookModule
 
     });
 
-    webhookServer.onHangUp((hangUpEvent) => {
+    webhookServer.onHangUp(() => {
       console.log("Hangup!!");
       client.emit("hangup");
     });
