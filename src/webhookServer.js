@@ -24,15 +24,22 @@ webhookModule
 
     webhookServer.onNewCall(async (newCallEvent) => {
       try {
+        let number = newCallEvent.from;
+        let name = "Anonymous";
+        let surname = "";
+        let company = "";
 
-        const number = newCallEvent.from;
-        let name = "Unknown";
         const contacts = await getContacts();
+
         if (contacts[number]) {
           name = contacts[number].name;
+          surname = contacts[number].surname;
+          company = contacts[number].company; 
+        } else {
+          number = "Anonymous";
         }
-        console.log(name);
-        client.emit("incoming", {number: number, name: name} );
+
+        client.emit("incoming", {number: number, name: name, surename: surname, company: company} );
 
       } catch (error) {
         console.error(error.message);

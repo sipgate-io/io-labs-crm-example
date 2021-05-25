@@ -1,5 +1,8 @@
-#header {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+header {
+    width: 100%;
+}
+
+#headerContent {
+    margin-top: 2em;
+    text-align: center;
 }
