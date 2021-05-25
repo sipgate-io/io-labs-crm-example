@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import './Modal.css';
 
 export const Modal = ({number, name, isActive=false}) => {
     const [duration, setDuration] = useState(0);
@@ -14,9 +15,14 @@ export const Modal = ({number, name, isActive=false}) => {
     })
 
     return (
-        <div>
-            <p>Nummer: {number}</p>
-            <p>Name: {name}</p>
-            {isActive ? <p>{duration}</p> : <p>Ringing...</p>}
+        <div className="container">
+            <div className="modal">
+                <div className="modal-inner">
+                    <h3>Neuer Anruf</h3>
+                    <p>Nummer: {number}</p>
+                    <p>Name: {name}</p>
+                    {isActive ? <p>{duration}</p> : <p>Ringing...</p>}
+                </div>
+            </div>            
         </div>);
 }
