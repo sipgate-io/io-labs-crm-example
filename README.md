@@ -26,7 +26,7 @@ To achieve this we use our sipgate.io node-library in combination with [Socket.i
 
 ## Getting started
 
-To be able to launch this example, navigate to a directory where you want the example service to be stored. In a terminal, you can clone this repository from GitHub and install all required dependencies using `npm install`.
+To be able to launch this example, navigate to a directory where you want the example service to be stored. In a terminal, you can clone this repository from GitHub and install all required dependencies using `npm install`. (If you want to run it in production, use `npm install --only=production` to ignore dev dependecies.)
 
 ```bash
 git clone https://github.com/sipgate-io/io-labs-display-incoming-calls
