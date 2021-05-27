@@ -14,7 +14,7 @@ webhookModule
     port: serverPort,
     serverAddress,
   })
-  .then((webhookServer) => {
+  .then(async (webhookServer) => {
     console.log(
       `Server running at ${serverAddress}\n` +
         "Please set this URL for incoming calls at https://console.sipgate.com/webhooks/urls\n" +
@@ -22,14 +22,20 @@ webhookModule
         "Ready for calls 📞"
     );
 
+    let contacts;
+    try {
+      contacts = await getContacts();
+    } catch (error) {
+      console.log("ERROR: Please provide a contacts.json file in the root directory. More information can be obtained in the README.md");
+      process.exit(1);
+    }
+
     webhookServer.onNewCall(async (newCallEvent) => {
       try {
         let number = newCallEvent.from;
         let name = "Anonymous";
         let surname = "";
         let company = "";
-
-        const contacts = await getContacts();
 
         if (contacts[number]) {
           name = contacts[number].name;
