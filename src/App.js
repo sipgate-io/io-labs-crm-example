@@ -22,8 +22,8 @@ function App() {
 
     return (
         <div className="App">
-            <Header></Header>
-            {state.callStatus === callStatus.NONE ? <div style={{textAlign: 'center', marginTop: '2em'}}><p>No Call</p></div> : 
+            <Header />
+            {state.callStatus === callStatus.NONE ? <div style={{textAlign: 'center', marginTop: '2em'}}><p>No Call</p></div> :
             <Modal name={state.name} surname={state.surname} company={state.company} number={state.number} isActive={state.callStatus === callStatus.ACTIVE} /> }
         </div>
     );
