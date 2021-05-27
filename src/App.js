@@ -1,4 +1,5 @@
 import {Modal} from "./Modal";
+import {Header} from "./Header";
 import {useEffect, useState} from "react";
 
 import io from 'socket.io-client';
@@ -10,7 +11,7 @@ const callStatus = {
     "ACTIVE": "active"
 }
 function App() {
-    const initialState = {number: "", name: "", callStatus: callStatus.NONE};
+    const initialState = {number: "", name: "", surname: "", company: "", callStatus: callStatus.NONE};
     const [state, setState] = useState(initialState);
 
     useEffect(() => {
@@ -21,8 +22,9 @@ function App() {
 
     return (
         <div className="App">
-            {state.callStatus === callStatus.NONE ? <p>No Call</p> : 
-            <Modal name={state.name} number={state.number} isActive={state.callStatus === callStatus.ACTIVE} /> }
+            <Header />
+            {state.callStatus === callStatus.NONE ? <div style={{textAlign: 'center', marginTop: '2em'}}><p>No Call</p></div> :
+            <Modal name={state.name} surname={state.surname} company={state.company} number={state.number} isActive={state.callStatus === callStatus.ACTIVE} /> }
         </div>
     );
 }
