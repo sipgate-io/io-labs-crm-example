@@ -35,16 +35,14 @@ webhookModule
         webhookServer.onNewCall(async (newCallEvent) => {
             try {
                 let number = newCallEvent.from;
-                let name = 'Anonymous';
-                let surname = '';
-                let company = '';
+                let name = 'unknown';
+                let surname = 'unknown';
+                let company = 'unknown';
 
                 if (contacts[number]) {
                     name = contacts[number].name;
                     surname = contacts[number].surname;
                     company = contacts[number].company;
-                } else {
-                    number = 'Anonymous';
                 }
 
                 client.emit('incoming', {

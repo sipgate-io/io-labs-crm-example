@@ -22,16 +22,7 @@
     padding: 1em;
     border: 1px solid transparent;
     border-radius: 25px;
-    box-shadow: 0 0 0 0em rgba(#3498db, 0);
 }
-
-  .modal-inner {
-    position: relative;
-    display: block;
-    margin: 0;
-    border-radius: 0.5em;
-    transform: translate3d(0, 0, 0) scale(1);
-  }
 
 .modal-vibrating {
     animation: modal-inner-icon 3000ms infinite;

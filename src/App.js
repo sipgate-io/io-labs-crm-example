@@ -12,10 +12,10 @@ const callStatus = {
 };
 function App() {
     const initialState = {
-        number: '',
-        name: '',
-        surname: '',
-        company: '',
+        number: 'unknown',
+        name: 'unknown',
+        surname: 'unknown',
+        company: 'unknown',
         callStatus: callStatus.NONE,
     };
     const [state, setState] = useState(initialState);
@@ -33,7 +33,7 @@ function App() {
     return (
         <div className="App">
             <Header />
-            {state.callStatus !== callStatus.NONE ? (
+            {state.callStatus === callStatus.NONE ? (
                 <div style={{ textAlign: 'center', marginTop: '2em' }}>
                     <h1>📞 No Call 📞</h1>
                 </div>
