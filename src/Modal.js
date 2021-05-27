@@ -19,14 +19,16 @@ export const Modal = ({ number, name, surname, company, isActive = false }) => {
     return (
         <div className="container">
             <div className="modal">
-                <div className="modal-inner">
-                    <h3>Neuer Anruf</h3>
-                    <p>{number === '' ? null : `Nummer: ${number}`}</p>
-                    <p>
-                        Name: {name} {surname}
-                    </p>
-                    <p>{company === '' ? null : `Company: ${company}`}</p>
-                    {isActive ? <p>{duration}</p> : <p>Ringing...</p>}
+                <div className="modal-inner modal-vibrating">
+                    <div className="">
+                        <h3>New Call</h3>
+                        <p>{number === '' ? null : `Nummer: ${number}`}</p>
+                        <p>
+                            Name: {name} {surname}
+                        </p>
+                        <p>{company === '' ? null : `Company: ${company}`}</p>
+                        {isActive ? <p>{duration}</p> : <p>Ringing...</p>}
+                    </div>
                 </div>
             </div>
         </div>

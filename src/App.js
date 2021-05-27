@@ -33,9 +33,9 @@ function App() {
     return (
         <div className="App">
             <Header />
-            {state.callStatus === callStatus.NONE ? (
+            {state.callStatus !== callStatus.NONE ? (
                 <div style={{ textAlign: 'center', marginTop: '2em' }}>
-                    <p>No Call</p>
+                    <h1>📞 No Call 📞</h1>
                 </div>
             ) : (
                 <Modal
