@@ -7,7 +7,7 @@ export const Header = () => {
                 <img
                     alt="sipgateio CRM"
                     width="600"
-                    src="sipgateio_CRM_inactive.jpg"
+                    src="sipgateio_CRM_inactive.png"
                 ></img>
             </div>
         </header>
