@@ -5,9 +5,9 @@ export const Header = () => {
         <header>
             <div id="headerContent">
                 <img
-                    alt="Gremlins CRM"
+                    alt="sipgateio CRM"
                     width="600"
-                    src="Gremlins_CRM_inactive.jpg"
+                    src="sipgateio_CRM_inactive.jpg"
                 ></img>
             </div>
         </header>
