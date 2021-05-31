@@ -26,9 +26,9 @@ To achieve this we use our sipgate.io node-library in combination with [Socket.i
 
 ## Getting started
 
-To be able to launch this example, navigate to a directory where you want the example service to be stored. In a terminal, you can clone this repository from GitHub and install all required dependencies using `npm install`. (If you want to run it in production, use `npm install --only=production` to ignore dev dependecies.)
+To be able to launch this example, navigate to a directory where you want the example service to be stored. In a terminal, you can clone this repository from GitHub and install all required dependencies using `npm install`. (If you want to run it in production, use `npm install --only=production` to ignore dev dependencies.)
 
-Please provide a `contacts.json` file in the root directory, for an example look at `contacts.example.json`. 
+Please provide a `contacts.json` file in the root directory, for example, look at `contacts.example.json`. 
 
 ```bash
 git clone https://github.com/sipgate-io/io-labs-display-incoming-calls
@@ -38,8 +38,8 @@ npm install
 
 It is necessary to connect our local server to the internet.
 To do this, you can use [localhost.run](https://localhost.run/). 
-Fill in the environment variables in a `.env` file with the given url and add your port. 
-Add the incoming url in your [sipgate account settings](https://console.sipgate.com/webhooks/urls).
+Fill in the environment variables in a `.env` file with the given URL and add your port. 
+Add the incoming URL in your [sipgate account settings](https://console.sipgate.com/webhooks/urls).
 
 ```bash
 npm run server
