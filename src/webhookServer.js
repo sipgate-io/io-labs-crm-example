@@ -1,6 +1,7 @@
 import { createWebhookModule } from 'sipgateio';
 import { getContacts } from './contacts.js';
 import { createSocket } from './socket.js';
+import {getVoiceMailEvent} from './historyModule.js';
 import * as dot from 'dotenv';
 dot.config();
 
@@ -60,12 +61,16 @@ webhookModule
             );
         });
 
-        webhookServer.onHangUp(() => {
+        webhookServer.onHangUp( async (event) => {
+            const timestamp = new Date(Date.now()-300000);
+            const voiceMailEvent = await getVoiceMailEvent(timestamp, event.from, event.to);
+            console.log(voiceMailEvent);
             console.log('Hangup!!');
             client.emit('hangup');
         });
 
-        webhookServer.onAnswer(() => {
+        webhookServer.onAnswer((newCallEvent) => {
+            console.log(newCallEvent);
             console.log('Answer');
             client.emit('answer');
         });
