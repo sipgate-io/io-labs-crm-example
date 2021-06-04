@@ -1,7 +1,7 @@
 import { createWebhookModule } from 'sipgateio';
 import { getContacts } from './contacts.js';
 import { createSocket } from './socket.js';
-import {getVoiceMailEvent} from './historyModule.js';
+import { getLatestHistoryEntry } from './historyModule.js';
 import * as dot from 'dotenv';
 dot.config();
 
@@ -70,8 +70,10 @@ webhookModule
             console.log(event);
             client.emit('hangup');
             if(event.originalCallId === currentCallId){
-                const voiceMailEvent = await getVoiceMailEvent(event.from, event.to);
-                console.log(voiceMailEvent);
+                const historyEntry = await getLatestHistoryEntry();
+                if(historyEntry.source === event.from && historyEntry.target === event.answeringNumber && historyEntry.status === 'PICKUP'){
+                    console.log(historyEntry);
+                }
             }
             currentCallId = '';
         });

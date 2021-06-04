@@ -11,22 +11,12 @@ const sipgateToken = process.env.SIPGATE_TOKEN;
 const client = sipgateIO({tokenId: sipgateTokenID, token: sipgateToken});
 const historyModule = createHistoryModule(client);
 
-export async function getVoiceMailEvent(caller, callee) {
-    const startdate = new Date('2021-06-02T14:00:00Z');
-    await setTimeoutPromise(10000);
-    const voiceMails = historyModule.fetchAll({
-        startDate: startdate,
-        types: [HistoryEntryType.VOICEMAIL]
-    });
-    // .then(historyEvents => {
-    //     console.log(startdate, caller, callee, historyEvents);
-    //     return historyEvents.find((entry) => {
-    //         console.log(entry);
-    //         return entry.source === caller && entry.target === callee;
-    //     })
-    // });
-
-    return voiceMails;
+export async function getLatestHistoryEntry() {
+    await setTimeoutPromise(7000);
+    const historyEntries = await historyModule.fetchAll({},{
+            limit: 1
+        })
+    return historyEntries[0];
 }
 
 
