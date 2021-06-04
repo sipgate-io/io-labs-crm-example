@@ -1,9 +1,11 @@
-import { createWebhookModule } from 'sipgateio';
-import { getContacts } from './contacts.js';
-import { createSocket } from './socket.js';
-import { getLatestHistoryEntry } from './historyModule.js';
+import {createWebhookModule} from 'sipgateio';
+import {getContacts} from './contacts.js';
+import {createSocket} from './socket.js';
+import {getLatestHistoryEntry} from './historyModule.js';
 import * as dot from 'dotenv';
-import { convertUrl } from './urlConverter.js';
+import {convertUrl} from './urlConverter.js';
+import { EventEmitter } from 'events';
+
 dot.config();
 
 const serverAddress = process.env.SIPGATE_WEBHOOK_SERVER_ADDRESS;
@@ -11,6 +13,8 @@ const serverPort = process.env.SIPGATE_WEBHOOK_PORT;
 
 const client = createSocket();
 const webhookModule = createWebhookModule();
+
+export const emitter = new EventEmitter();
 
 webhookModule
     .createServer({
@@ -20,9 +24,9 @@ webhookModule
     .then(async (webhookServer) => {
         console.log(
             `Server running at ${serverAddress}\n` +
-                'Please set this URL for incoming calls at https://console.sipgate.com/webhooks/urls\n' +
-                "ProTip: To see how to do that automatically, check out the example at 'examples/settings/settings_set_url_incoming.ts'\n" +
-                'Ready for calls 📞'
+            'Please set this URL for incoming calls at https://console.sipgate.com/webhooks/urls\n' +
+            "ProTip: To see how to do that automatically, check out the example at 'examples/settings/settings_set_url_incoming.ts'\n" +
+            'Ready for calls 📞'
         );
 
         let contacts;
@@ -51,7 +55,7 @@ webhookModule
                 client.emit('incoming', {
                     number: number,
                     name: name,
-                    surename: surname,
+                    surname: surname,
                     company: company,
                 });
             } catch (error) {
@@ -81,6 +85,13 @@ webhookModule
                 }
                 console.log('download and convert speech to text...');
                 convertUrl(historyEntry.recordingUrl);
+                emitter.on('result', (text) => {
+                    client.emit('voicemail', {
+                        text,
+                        number: historyEntry.source,
+                        duration: historyEntry.duration,
+                    });
+                })
             }
         });
 

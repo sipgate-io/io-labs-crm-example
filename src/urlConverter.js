@@ -1,6 +1,6 @@
 import ffmpeg from 'fluent-ffmpeg';
 import https from 'https';
-import { wfReader } from './voskAPI.js';
+import {wfReader} from './voskAPI.js';
 
 const convertMp3ToWav = (stream) =>
     ffmpeg(stream)
@@ -20,6 +20,6 @@ const convertMp3ToWav = (stream) =>
 
 export const convertUrl = (url) => {
     https.get(url, (response) => {
-        convertMp3ToWav(response).pipe(wfReader);
+        convertMp3ToWav(response).pipe(wfReader)
     });
 };
