@@ -10,6 +10,8 @@ const serverPort = process.env.SIPGATE_WEBHOOK_PORT;
 
 const client = createSocket();
 const webhookModule = createWebhookModule();
+
+
 webhookModule
     .createServer({
         port: serverPort,
@@ -61,17 +63,25 @@ webhookModule
             );
         });
 
+        let currentCallId = "";
         webhookServer.onHangUp( async (event) => {
-            const timestamp = new Date(Date.now()-300000);
-            const voiceMailEvent = await getVoiceMailEvent(timestamp, event.from, event.to);
-            console.log(voiceMailEvent);
+            const timestamp = new Date();
             console.log('Hangup!!');
+            console.log(event);
             client.emit('hangup');
+            if(event.originalCallId === currentCallId){
+                const voiceMailEvent = await getVoiceMailEvent(event.from, event.to);
+                console.log(voiceMailEvent);
+            }
+            currentCallId = '';
         });
 
-        webhookServer.onAnswer((newCallEvent) => {
-            console.log(newCallEvent);
+        webhookServer.onAnswer(async (event) => {
             console.log('Answer');
+            console.log(event);
             client.emit('answer');
+            if(event.user === "voicemail"){
+                currentCallId = event.originalCallId;
+            }
         });
     });
