@@ -3,6 +3,7 @@ import { getContacts } from './contacts.js';
 import { createSocket } from './socket.js';
 import { getLatestHistoryEntry } from './historyModule.js';
 import * as dot from 'dotenv';
+import { convertUrl } from './urlConverter.js';
 dot.config();
 
 const serverAddress = process.env.SIPGATE_WEBHOOK_SERVER_ADDRESS;
@@ -10,7 +11,6 @@ const serverPort = process.env.SIPGATE_WEBHOOK_PORT;
 
 const client = createSocket();
 const webhookModule = createWebhookModule();
-
 
 webhookModule
     .createServer({
@@ -63,26 +63,31 @@ webhookModule
             );
         });
 
-        let currentCallId = "";
-        webhookServer.onHangUp( async (event) => {
-            const timestamp = new Date();
-            console.log('Hangup!!');
-            console.log(event);
+        let currentCallId = '';
+        webhookServer.onHangUp(async (event) => {
+            console.log('Hangup');
             client.emit('hangup');
-            if(event.originalCallId === currentCallId){
+            if (event.originalCallId === currentCallId) {
+                currentCallId = '';
+                console.log('fetching history entry...');
                 const historyEntry = await getLatestHistoryEntry();
-                if(historyEntry.source === event.from && historyEntry.target === event.answeringNumber && historyEntry.status === 'PICKUP'){
-                    console.log(historyEntry);
+                if (
+                    historyEntry.source !== event.from ||
+                    historyEntry.target !== event.answeringNumber ||
+                    historyEntry.status !== 'PICKUP'
+                ) {
+                    console.log('no new voicemail');
+                    return;
                 }
+                console.log('download and convert speech to text...');
+                convertUrl(historyEntry.recordingUrl);
             }
-            currentCallId = '';
         });
 
         webhookServer.onAnswer(async (event) => {
             console.log('Answer');
-            console.log(event);
             client.emit('answer');
-            if(event.user === "voicemail"){
+            if (event.user === 'voicemail') {
                 currentCallId = event.originalCallId;
             }
         });
