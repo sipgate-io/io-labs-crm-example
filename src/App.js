@@ -1,5 +1,6 @@
-import {Modal} from './Modal';
-import {Header} from './Header';
+import {Modal} from './components/Modal';
+import {Header} from './components/Header';
+import {VoicemailTable} from './components/VoicemailTable';
 import React, {useEffect, useState} from 'react';
 
 import io from 'socket.io-client';
@@ -19,20 +20,20 @@ function App() {
         surname: 'unknown',
         company: 'unknown',
         callStatus: callStatus.NONE,
-        voiceMails: new Array(),
+        voiceMails: [{text:"das ist eine wolf mal überlappen",number:"+491729457875",duration:5}],
     };
     const [state, setState] = useState(initialState);
 
     useEffect(() => {
         ioClient.on('incoming', (callInfo) =>
-            setState({...callInfo, callStatus: callStatus.RINGING})
+            setState({...state, ...callInfo, callStatus: callStatus.RINGING})
         );
         ioClient.on('answer', () =>
             setState({...state, callStatus: callStatus.ACTIVE})
         );
         ioClient.on('hangup', () => setState(initialState));
         ioClient.on('voicemail', (voiceMail) => {
-            setState({...state, voiceMails: [].concat(voiceMail)});
+            setState({...state, voiceMails: [...state.voiceMails, voiceMail]});
         });
     });
 
@@ -52,8 +53,9 @@ function App() {
                     isActive={state.callStatus === callStatus.ACTIVE}
                 />
             )}
-            <div>
-                <span>Voicemails: {JSON.stringify(state.voiceMails)}</span>
+            <div className="voicemailTableContainer">
+                
+                {state.voiceMails.length > 0 ? <VoicemailTable voicemails={state.voiceMails} /> : null}
             </div>
         </div>
     );
