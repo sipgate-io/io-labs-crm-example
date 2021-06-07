@@ -67,12 +67,11 @@ webhookModule
             );
         });
 
-        let currentCallId = '';
         webhookServer.onHangUp(async (event) => {
             console.log('Hangup');
             client.emit('hangup');
-            if (event.originalCallId === currentCallId) {
-                currentCallId = '';
+            console.log(event)
+            if (event.cause != "forwarded") {
                 console.log('fetching history entry...');
                 const historyEntry = await getLatestHistoryEntry();
                 if (
@@ -95,11 +94,8 @@ webhookModule
             }
         });
 
-        webhookServer.onAnswer(async (event) => {
+        webhookServer.onAnswer(() => {
             console.log('Answer');
             client.emit('answer');
-            if (event.user === 'voicemail') {
-                currentCallId = event.originalCallId;
-            }
         });
     });
