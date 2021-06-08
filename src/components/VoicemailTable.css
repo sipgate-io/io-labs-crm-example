@@ -1,0 +1,26 @@
+.voicemailTable {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.voicemailContainer {
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    width: 600px;
+}
+
+th, td {
+    padding: 5px 20px;
+}
+
+tr:nth-child(even) {
+    background-color: lightgray;
+}
+
+th {
+    background-color: black;
+    color: white;
+}

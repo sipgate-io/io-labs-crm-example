@@ -20,7 +20,7 @@ function App() {
         surname: 'unknown',
         company: 'unknown',
         callStatus: callStatus.NONE,
-        voiceMails: [{text:"das ist eine wolf mal überlappen",number:"+491729457875",duration:5}],
+        voiceMails: [{text:"das ist eine wolf mal überlappen",number:"+491729457875",duration:5}, {text:"das ist eine wolf mal überlappen",number:"+491729457875",duration:5}, {text:"das ist eine wolf mal überlappen",number:"+491729457875",duration:5}, {text:"das ist eine wolf mal überlappen",number:"+491729457875",duration:5} ],
     };
     const [state, setState] = useState(initialState);
 
@@ -54,8 +54,7 @@ function App() {
                 />
             )}
             <div className="voicemailTableContainer">
-                
-                {state.voiceMails.length > 0 ? <VoicemailTable voicemails={state.voiceMails} /> : null}
+                <VoicemailTable voicemails={state.voiceMails} />
             </div>
         </div>
     );
