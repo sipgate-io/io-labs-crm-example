@@ -3,7 +3,7 @@ import {getContacts} from './contacts.js';
 import {createSocket} from './socket.js';
 import {getLatestHistoryEntry} from './historyModule.js';
 import * as dot from 'dotenv';
-import {convertUrl} from './urlConverter.js';
+import {convertMp3ToWav} from './urlConverter.js';
 import { EventEmitter } from 'events';
 
 dot.config();
@@ -83,7 +83,7 @@ webhookModule
                     return;
                 }
                 console.log('download and convert speech to text...');
-                convertUrl(historyEntry.recordingUrl);
+                convertMp3ToWav(historyEntry.recordingUrl);
                 emitter.on('result', (text) => {
                     client.emit('voicemail', {
                         text,

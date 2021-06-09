@@ -1,9 +1,7 @@
 import ffmpeg from 'fluent-ffmpeg';
-import https from 'https';
 import {wfReader} from './voskAPI.js';
 
-const convertMp3ToWav = (stream) =>
-    ffmpeg(stream)
+export const convertMp3ToWav = (path) => ffmpeg(path)
         .audioFrequency(16000)
         .toFormat('wav')
         .on('error', (err) => {
@@ -16,10 +14,4 @@ const convertMp3ToWav = (stream) =>
         })
         .on('end', () => {
             console.log('Processing finished !');
-        });
-
-export const convertUrl = (url) => {
-    https.get(url, (response) => {
-        convertMp3ToWav(response).pipe(wfReader)
-    });
-};
+        }).pipe(wfReader);
