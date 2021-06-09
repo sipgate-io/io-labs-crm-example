@@ -85,6 +85,7 @@ webhookModule
                 console.log('download and convert speech to text...');
                 convertMp3ToWav(historyEntry.recordingUrl);
                 emitter.on('result', (text) => {
+                    console.log(text);
                     client.emit('voicemail', {
                         text,
                         number: historyEntry.source,
