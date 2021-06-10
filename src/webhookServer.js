@@ -1,10 +1,10 @@
-import {createWebhookModule} from 'sipgateio';
-import {getContacts} from './contacts.js';
-import {createSocket} from './socket.js';
-import {getLatestHistoryEntry} from './historyModule.js';
+import { createWebhookModule } from 'sipgateio';
+import { getContacts } from './contacts.js';
+import { createSocket } from './socket.js';
+import { getLatestHistoryEntry } from './historyModule.js';
 import * as dot from 'dotenv';
-import {convertMp3ToWav} from './urlConverter.js';
-import {EventEmitter} from 'events';
+import { convertMp3ToWav } from './urlConverter.js';
+import { EventEmitter } from 'events';
 
 dot.config();
 
@@ -24,9 +24,9 @@ webhookModule
     .then(async (webhookServer) => {
         console.log(
             `Server running at ${serverAddress}\n` +
-            'Please set this URL for incoming calls at https://console.sipgate.com/webhooks/urls\n' +
-            "ProTip: To see how to do that automatically, check out the example at 'examples/settings/settings_set_url_incoming.ts'\n" +
-            'Ready for calls 📞'
+                'Please set this URL for incoming calls at https://console.sipgate.com/webhooks/urls\n' +
+                "ProTip: To see how to do that automatically, check out the example at 'examples/settings/settings_set_url_incoming.ts'\n" +
+                'Ready for calls 📞'
         );
 
         let contacts;
@@ -62,8 +62,6 @@ webhookModule
                 console.error(error.message);
             }
 
-            console.log(newCallEvent);
-
             console.log(
                 `New call from ${newCallEvent.from} to ${newCallEvent.to}`
             );
@@ -72,8 +70,8 @@ webhookModule
         webhookServer.onHangUp(async (event) => {
             console.log('Hangup');
             client.emit('hangup');
-            if (event.cause == "forwarded") {
-                return
+            if (event.cause == 'forwarded') {
+                return;
             }
             console.log('fetching history entry...');
             const historyEntry = await getLatestHistoryEntry();
@@ -88,13 +86,12 @@ webhookModule
             console.log('download and convert speech to text...');
             convertMp3ToWav(historyEntry.recordingUrl);
             emitter.once('result', (text) => {
-                console.log(text);
                 client.emit('voicemail', {
                     text,
                     number: historyEntry.source,
                     duration: historyEntry.duration,
                 });
-            })
+            });
         });
 
         webhookServer.onAnswer(() => {

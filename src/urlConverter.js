@@ -1,6 +1,5 @@
 import ffmpeg from 'fluent-ffmpeg';
-import wav from 'wav';
-import {getWfReader} from "./voskAPI.js";
+import { getWfReader } from './voskAPI.js';
 
 export const convertMp3ToWav = (path) =>
     ffmpeg(path)
@@ -16,4 +15,5 @@ export const convertMp3ToWav = (path) =>
         })
         .on('end', () => {
             console.log('Processing finished !');
-        }).pipe(getWfReader())
+        })
+        .pipe(getWfReader());

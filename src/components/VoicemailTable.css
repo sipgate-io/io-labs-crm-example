@@ -9,18 +9,43 @@
 
 table {
     border-collapse: collapse;
-    width: 600px;
+    width: 800px;
+    table-layout: fixed;
 }
 
-th, td {
-    padding: 5px 20px;
+th,
+td {
+    border-top: 1px solid lightgrey;
+    padding: 10px 20px;
 }
 
-tr:nth-child(even) {
-    background-color: lightgray;
+.numberColumn {
+    width: 25%;
+}
+
+.durationColumn {
+    width: 15%;
+}
+.removeColumn {
+    width: 15%;
 }
 
 th {
     background-color: black;
     color: white;
+    border-left: 2px solid white;
+}
+
+/*th:last-child {*/
+/*    background-color: white;*/
+/*}*/
+
+button {
+    font: inherit;
+    font-size: small;
+    border-radius: 0;
+    background: lightgrey;
+    border: none;
+    color: orangered;
+    padding: 4px 10px;
 }

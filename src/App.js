@@ -1,7 +1,7 @@
-import {Modal} from './components/Modal';
-import {Header} from './components/Header';
-import {VoicemailTable} from './components/VoicemailTable';
-import React, {useEffect, useState} from 'react';
+import { Modal } from './components/Modal';
+import { Header } from './components/Header';
+import { VoicemailTable } from './components/VoicemailTable';
+import React, { useEffect, useState } from 'react';
 
 import io from 'socket.io-client';
 
@@ -26,10 +26,10 @@ function App() {
 
     useEffect(() => {
         ioClient.on('incoming', (callInfo) =>
-            setState({...state, ...callInfo, callStatus: callStatus.RINGING})
+            setState({ ...state, ...callInfo, callStatus: callStatus.RINGING })
         );
         ioClient.on('answer', () =>
-            setState({...state, callStatus: callStatus.ACTIVE})
+            setState({ ...state, callStatus: callStatus.ACTIVE })
         );
         ioClient.on('hangup', () => setState(initialState));
         ioClient.on('voicemail', (voiceMail) => {
@@ -37,11 +37,16 @@ function App() {
         });
     });
 
+    const deleteVoicemail = (index) => {
+        voicemails.splice(index, 1);
+        setVoicemails([...voicemails]);
+    };
+
     return (
         <div className="App">
-            <Header/>
+            <Header />
             {state.callStatus === callStatus.NONE ? (
-                <div style={{textAlign: 'center', marginTop: '2em'}}>
+                <div style={{ textAlign: 'center', marginTop: '2em' }}>
                     <h1>📞 No Call 📞</h1>
                 </div>
             ) : (
@@ -54,7 +59,10 @@ function App() {
                 />
             )}
             <div className="voicemailTableContainer">
-                <VoicemailTable voicemails={voicemails} />
+                <VoicemailTable
+                    voicemails={voicemails}
+                    deleteVoicemail={deleteVoicemail}
+                />
             </div>
         </div>
     );
