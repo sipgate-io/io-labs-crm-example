@@ -32,8 +32,9 @@ export const convertMp3ToWav = (path) => {
                 rec.acceptWaveform(data);
           }
         }
-        console.log(rec.finalResult(rec));
-        emitter.emit('result', rec.finalResult(rec).text);
+        let result = rec.finalResult().text;
+        console.log(result);
+        emitter.emit('result', result);
 
         rec.free();
     });
