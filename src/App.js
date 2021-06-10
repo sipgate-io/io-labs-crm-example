@@ -21,8 +21,9 @@ function App() {
         company: 'unknown',
         callStatus: callStatus.NONE,
     };
+
     const [state, setState] = useState(initialState);
-    const [voicemails, setVoicemails] = useState([]);
+    const [voicemails, setVoicemails] = useState(localStorage.getItem('voicemails') ? JSON.parse(localStorage.getItem('voicemails')) : []);
 
     useEffect(() => {
         ioClient.on('incoming', (callInfo) =>
@@ -33,13 +34,15 @@ function App() {
         );
         ioClient.on('hangup', () => setState(initialState));
         ioClient.on('voicemail', (voiceMail) => {
-            setVoicemails([...voicemails, voiceMail]);
+            setVoicemails([...voicemails, voiceMail], () => {});
+            localStorage.setItem('voicemails', JSON.stringify([...voicemails, voiceMail]));
         });
     });
 
     const deleteVoicemail = (index) => {
         voicemails.splice(index, 1);
         setVoicemails([...voicemails]);
+        localStorage.setItem('voicemails', [...voicemails]);
     };
 
     return (
