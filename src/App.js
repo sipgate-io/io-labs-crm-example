@@ -42,7 +42,7 @@ function App() {
     const deleteVoicemail = (index) => {
         voicemails.splice(index, 1);
         setVoicemails([...voicemails]);
-        localStorage.setItem('voicemails', [...voicemails]);
+        localStorage.setItem('voicemails', JSON.stringify([...voicemails]));
     };
 
     return (
