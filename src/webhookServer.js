@@ -92,7 +92,7 @@ webhookModule
                     number: historyEntry.source,
                     duration: historyEntry.duration,
                 });
-                sendMail(text, historyEntry.source, historyEntry.duration);
+                sendMail(text, historyEntry);
             });
         });
 

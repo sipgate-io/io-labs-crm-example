@@ -1,12 +1,13 @@
 import nodemailer from 'nodemailer';
 import * as dot from 'dotenv';
+import createHtmlFromTemplate from './mailTemplate.js';
 
 dot.config();
 
 const mailFrom = process.env.MAIL_FROM;
 const mailTo = process.env.MAIL_TO;
 
-export async function sendMail(text, number, duration) {
+export async function sendMail(text, historyEntry) {
     // Generate test SMTP service account from ethereal.email
     // Only needed if you don't have a real mail account for testing
     let testAccount = await nodemailer.createTestAccount();
@@ -22,15 +23,14 @@ export async function sendMail(text, number, duration) {
         },
     });
 
-    console.log(mailFrom, mailTo);
-
+    console.log(text);
     let info = await transporter
         .sendMail({
             from: mailFrom,
             to: mailTo,
-            subject: `New voicemail from ${number} (${duration})`,
-            text: text,
-            html: `<p>${text}</p>`,
+            subject: `New voicemail from ${historyEntry.source}`,
+            text: `${text} \n Die Nachricht steht unter folgendem Link zum Download zur Verfügung: ${historyEntry.recordingUrl} \n Die Nachricht hat eine Länge von ${historyEntry.duration} Sekunden.`,
+            html: createHtmlFromTemplate(text, historyEntry),
         })
         .catch(console.error);
 
