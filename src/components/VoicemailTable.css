@@ -36,16 +36,35 @@ th {
     border-left: 2px solid white;
 }
 
+.tableText {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    align-items: center;
+}
+
 /*th:last-child {*/
 /*    background-color: white;*/
 /*}*/
 
-button {
+.deleteButton {
     font: inherit;
     font-size: small;
     border-radius: 0;
-    background: lightgrey;
+    background: red;
     border: none;
-    color: orangered;
+    color: #fff;
     padding: 4px 10px;
+    height: 40px;
+}
+
+.showHideButton {
+    font: inherit;
+    font-size: small;
+    border-radius: 0;
+    background: black;
+    border: none;
+    color: #fff;
+    padding: 4px 10px;
+    height: 40px;
 }
