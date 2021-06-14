@@ -11,7 +11,7 @@ function createHtmlFromTemplate(text, historyEntry) {
                 color="#000"
                 font-size="12px"
                 font-family="Helvetica Neue">
-                    <p><strong>Nachricht</strong>:${text}.</p>
+                    <p><strong>Nachricht:</strong> ${text}.</p>
                     <p>Die Nachricht hat eine Länge von ${historyEntry.duration} Sekunden.</p>
             </mj-text>
             <mj-button background-color="#F45E43"
