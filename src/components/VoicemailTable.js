@@ -2,18 +2,33 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './VoicemailTable.css';
 
-export const VoicemailTable = ({ voicemails, deleteVoicemail, hideText }) => {    
+export const VoicemailTable = ({ voicemails, deleteVoicemail, hideText }) => {
     const renderContent = () => {
         if (voicemails.length > 0) {
             return voicemails.map((voicemail, index) => {
                 return (
                     <tr key={index}>
                         <td>{voicemail.number}</td>
-                        <td className="tableText"><span>{voicemail.showText ? voicemail.text : 'Text is hidden'}</span><button className="showHideButton" onClick={() => hideText(index)}>{voicemail.showText ? 'hide' : 'show'}</button></td>
+                        <td className="tableText">
+                            <span>
+                                {voicemail.showText
+                                    ? voicemail.text
+                                    : 'Text is hidden'}
+                            </span>
+                            <button
+                                className="showHideButton"
+                                onClick={() => hideText(index)}
+                            >
+                                {voicemail.showText ? 'hide' : 'show'}
+                            </button>
+                        </td>
                         <td>{voicemail.duration} seconds</td>
                         <td>
                             {
-                                <button onClick={() => deleteVoicemail(index)} className="deleteButton">
+                                <button
+                                    onClick={() => deleteVoicemail(index)}
+                                    className="deleteButton"
+                                >
                                     remove
                                 </button>
                             }
