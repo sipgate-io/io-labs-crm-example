@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import './Modal.css';
 import PropTypes from 'prop-types';
 import React from 'react';
+
 export const Modal = ({ number, name, surname, company, isActive = false }) => {
     const [duration, setDuration] = useState(0);
-    console.log(number);
     useEffect(() => {
         let interval;
         if (isActive) {

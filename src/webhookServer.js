@@ -1,7 +1,12 @@
 import { createWebhookModule } from 'sipgateio';
 import { getContacts } from './contacts.js';
 import { createSocket } from './socket.js';
+import { getLatestHistoryEntry } from './historyModule.js';
 import * as dot from 'dotenv';
+import { convertMp3ToWav } from './urlConverter.js';
+import { EventEmitter } from 'events';
+import { sendMail } from './mail.js';
+
 dot.config();
 
 const serverAddress = process.env.SIPGATE_WEBHOOK_SERVER_ADDRESS;
@@ -9,6 +14,9 @@ const serverPort = process.env.SIPGATE_WEBHOOK_PORT;
 
 const client = createSocket();
 const webhookModule = createWebhookModule();
+
+export const emitter = new EventEmitter();
+
 webhookModule
     .createServer({
         port: serverPort,
@@ -48,7 +56,7 @@ webhookModule
                 client.emit('incoming', {
                     number: number,
                     name: name,
-                    surename: surname,
+                    surname: surname,
                     company: company,
                 });
             } catch (error) {
@@ -60,9 +68,32 @@ webhookModule
             );
         });
 
-        webhookServer.onHangUp(() => {
-            console.log('Hangup!!');
+        webhookServer.onHangUp(async (event) => {
+            console.log('Hangup');
             client.emit('hangup');
+            if (event.cause == 'forwarded') {
+                return;
+            }
+            console.log('fetching history entry...');
+            const historyEntry = await getLatestHistoryEntry();
+            if (
+                historyEntry.source !== event.from ||
+                historyEntry.target !== event.answeringNumber ||
+                historyEntry.status !== 'PICKUP'
+            ) {
+                console.log('no new voicemail');
+                return;
+            }
+            console.log('download and convert speech to text...');
+            convertMp3ToWav(historyEntry.recordingUrl);
+            emitter.once('result', (text) => {
+                client.emit('voicemail', {
+                    text,
+                    number: historyEntry.source,
+                    duration: historyEntry.duration,
+                });
+                sendMail(text, historyEntry);
+            });
         });
 
         webhookServer.onAnswer(() => {

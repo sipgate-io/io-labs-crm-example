@@ -1,0 +1,70 @@
+.voicemailTable {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.voicemailContainer {
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    width: 800px;
+    table-layout: fixed;
+}
+
+th,
+td {
+    border-top: 1px solid lightgrey;
+    padding: 10px 20px;
+}
+
+.numberColumn {
+    width: 25%;
+}
+
+.durationColumn {
+    width: 15%;
+}
+.removeColumn {
+    width: 15%;
+}
+
+th {
+    background-color: black;
+    color: white;
+    border-left: 2px solid white;
+}
+
+.tableText {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    align-items: center;
+}
+
+/*th:last-child {*/
+/*    background-color: white;*/
+/*}*/
+
+.deleteButton {
+    font: inherit;
+    font-size: small;
+    border-radius: 0;
+    background: red;
+    border: none;
+    color: #fff;
+    padding: 4px 10px;
+    height: 40px;
+}
+
+.showHideButton {
+    font: inherit;
+    font-size: small;
+    border-radius: 0;
+    background: black;
+    border: none;
+    color: #fff;
+    padding: 4px 10px;
+    height: 40px;
+}
