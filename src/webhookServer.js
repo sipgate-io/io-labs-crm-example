@@ -5,6 +5,7 @@ import { getLatestHistoryEntry } from './historyModule.js';
 import * as dot from 'dotenv';
 import { convertMp3ToWav } from './urlConverter.js';
 import { EventEmitter } from 'events';
+import { sendMail } from './mail.js';
 
 dot.config();
 
@@ -91,6 +92,7 @@ webhookModule
                     number: historyEntry.source,
                     duration: historyEntry.duration,
                 });
+                sendMail(text, historyEntry.source, historyEntry.duration);
             });
         });
 
