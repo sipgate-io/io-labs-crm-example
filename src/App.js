@@ -38,7 +38,10 @@ function App() {
         );
         ioClient.on('hangup', () => setState(initialState));
         ioClient.on('voicemail', (voiceMail) => {
-            setVoicemails([...voicemails, voiceMail], () => {});
+            setVoicemails(
+                [...voicemails, { ...voiceMail, showText: true }],
+                () => {}
+            );
             localStorage.setItem(
                 'voicemails',
                 JSON.stringify([...voicemails, voiceMail])
@@ -50,6 +53,14 @@ function App() {
         voicemails.splice(index, 1);
         setVoicemails([...voicemails]);
         localStorage.setItem('voicemails', JSON.stringify([...voicemails]));
+    };
+
+    const hideText = (index) => {
+        setVoicemails([
+            ...voicemails.slice(0, index),
+            { ...voicemails[index], showText: !voicemails[index].showText },
+            ...voicemails.slice(index + 1, voicemails.length + 1),
+        ]);
     };
 
     return (
@@ -72,6 +83,7 @@ function App() {
                 <VoicemailTable
                     voicemails={voicemails}
                     deleteVoicemail={deleteVoicemail}
+                    hideText={hideText}
                 />
             </div>
         </div>
