@@ -37,8 +37,12 @@ npm install
 ```
 
 ### Download a Vosk language model
+
 First, you need a speech recognition model for your language. You can download a pre-trained model from the [Vosk project page](https://alphacephei.com/vosk/models).
-After completing the download, extract the contents of the archive into the folder `model` inside of your project root folder. Example for the small model in german:
+In this example, we will make use of the smallest pre-trained model for the german language.  
+If you want to achieve higher accuracy in your parses you can make use of the larger models provided on the Vosk model page.
+
+After completing the download, extract the contents of the archive into the folder `model` inside of your project root folder.
 
 ```bash
 wget https://alphacephei.com/vosk/models/vosk-model-small-de-0.15.zip
@@ -46,22 +50,22 @@ unzip ./vosk-model-small-de-0.15.zip
 mv vosk-model-small-de-0.15 ./model
 ```
 
-### Enter your settings into the dotfile
+### Enter your settings into the _.env_ dotfile
 
 To interact with the sipgate.io API, you will need a personal access token that has the `history:read` scope. You can create a token in your [personal access token settings](https://app.sipgate.com/personal-access-token).
 
-Add your personal access token and your mail sender and recipient to *.env*.
+Add your personal access token and your mail sender and recipient to _.env_.
 
 ```bash
-SIPGATE_TOKEN_ID={token id}
-SIPGATE_TOKEN={token}
-MAIL_FROM="sipgate CRM" <noreply@example.org>
-MAIL_TO={recipient of your mail}
+SIPGATE_TOKEN_ID='{token id}'
+SIPGATE_TOKEN='{token}'
+MAIL_FROM='"sipgate CRM" <noreply@example.org>'
+MAIL_TO='{recipient of your mail}' # you can provide multiple recipients separated by commas
 ```
 
 It is necessary to connect our local server to the internet.
-To do this, you can use [localhost.run](https://localhost.run/).
-Fill in the environment variables in a `.env` file with the given URL and add your port.
+To do this, you can use [localhost.run](https://localhost.run/).  
+Fill in the environment variables in a _.env_ file with the given URL and add your port.
 Add the incoming URL in your [sipgate account settings](https://console.sipgate.com/webhooks/urls).
 
 ```bash
@@ -69,6 +73,6 @@ npm run server
 npm start
 ```
 
-Finally, add your localhost.run address to your `SIPGATE_WEBHOOK_SERVER_ADDRESS` variable in your *.env* file.
+Finally, add your localhost.run address to your `SIPGATE_WEBHOOK_SERVER_ADDRESS` variable in your _.env_ file.
 
 You should now be able to call your sipgate phone number and see the results on the [screen](https://localhost:3000).
