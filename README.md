@@ -1,13 +1,13 @@
-# Display contact information for incoming calls
+# A simple CRM application that displays contact information and provides voicemail transcriptions
 
-In this example project, we will display contact information for incoming calls in a [React app](https://reactjs.org/) by using the [sipgate.io](https://github.com/sipgate-io/sipgateio-node) library.
-We use a local JSON file to simulate the contacts database.
+In this example project, we will implement a simple CRM application as a [React app](https://reactjs.org/) by using the [sipgate.io](https://github.com/sipgate-io/sipgateio-node) library.
+We use a local JSON file to simulate the contacts database. Furthermore, we use [Vosk](https://alphacephei.com/vosk/) and [FFmpeg](https://www.ffmpeg.org/) to create voicemail transcriptions.
 
 ## What is sipgate.io?
 
 [sipgate.io](https://www.sipgate.io/) is a collection of APIs, which enables sipgate's customers to build flexible integrations matching their individual needs.
 Among other things, it provides interfaces for sending and receiving text messages or faxes, monitoring the call history, as well as initiating and manipulating calls.
-In this tutorial, we will use sipgate.io's contact API to import contacts from your company's Microsoft Outlook address book.
+In this tutorial, we will implement a simple Customer Relationship Management (CRM) software that utilizes sipgate.io's REST and Push APIs.
 
 ## In this example
 
@@ -20,9 +20,7 @@ To achieve this we use our sipgate.io node-library in combination with [Socket.i
 
 -   [npm](https://www.npmjs.com/)
 -   [node.js](https://nodejs.org/en/)
--   [socket.io](https://www.npmjs.com/package/socket.io)
--   [socket.io-client](https://www.npmjs.com/package/socket.io-client)
--   [react-application-install](https://reactjs.org/docs/create-a-new-react-app.html)
+-   [FFmpeg](https://www.ffmpeg.org/)
 
 ## Getting started
 
