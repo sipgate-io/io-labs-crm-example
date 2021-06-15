@@ -15,8 +15,12 @@ table {
 
 th,
 td {
-    border-top: 1px solid lightgrey;
     padding: 10px 20px;
+}
+
+tr {
+    border-top: 1px solid lightgrey;
+    vertical-align: top;
 }
 
 .numberColumn {
@@ -40,7 +44,6 @@ th {
     display: flex;
     justify-content: space-between;
     text-align: left;
-    align-items: center;
 }
 
 /*th:last-child {*/
@@ -67,4 +70,6 @@ th {
     color: #fff;
     padding: 4px 10px;
     height: 40px;
+    min-width: 60px;
+    margin-left: 8px;
 }
