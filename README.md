@@ -11,8 +11,8 @@ In this tutorial, we will implement a simple Customer Relationship Management (C
 
 ## In this example
 
-The script in this repository creates a local server, which listens to incoming calls.
-If contacts.json contains the caller number, we display the name and the number.
+The script in this repository creates a local server, which listens to incoming calls. It also transcribes voicemail messages to text messages and mails it to an address specified by the `MAIL_TO` variable in the .env file. Voicemail messages are displayed in the React application, along with the caller number.  
+During calls, the name, phone number and company of the caller are displayed onscreen as a modal, if the caller's contact information is specified in the *contacts.json* file.
 
 To achieve this we use our sipgate.io node-library in combination with [Socket.io](https://socket.io/) and a React Application.
 
@@ -26,11 +26,11 @@ To achieve this we use our sipgate.io node-library in combination with [Socket.i
 
 To be able to launch this example, navigate to a directory where you want the example service to be stored. In a terminal, you can clone this repository from GitHub and install all required dependencies using `npm install`. (If you want to run it in production, use `npm install --only=production` to ignore dev dependencies.)
 
-Please provide a `contacts.json` file in the root directory, for example, look at `contacts.example.json`.
+Please provide a *contacts.json* file in the root directory, for example, look at *contacts.example.json*.
 
 ```bash
-git clone https://github.com/sipgate-io/io-labs-display-incoming-calls
-cd io-labs-display-incoming-calls
+git clone https://github.com/sipgate-io/io-labs-crm-example
+cd io-labs-crm-example
 npm install
 ```
 
