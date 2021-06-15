@@ -34,6 +34,9 @@ export async function sendMail(text, historyEntry) {
         })
         .catch(console.error);
 
+    if (!info) {
+        return
+    }
     console.log('Message sent: %s', info.messageId);
 
     // Preview only available when sending through an Ethereal account
