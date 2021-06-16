@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders the Modal with exampledata 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="modal"
+  >
+    <div
+      className="modal-inner modal-vibrating"
+    >
+      <h3>
+        New Call
+      </h3>
+      <p>
+        Nummer: 123456789
+      </p>
+      <p>
+        Name: 
+        Peterle
+         
+        Drobush
+      </p>
+      <p>
+        Company: Peterles Company
+      </p>
+      <p>
+        Ringing...
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`it renders the Modal without data 1`] = `
+<div
+  className="container"
+>
+  <div
+    className="modal"
+  >
+    <div
+      className="modal-inner modal-vibrating"
+    >
+      <h3>
+        New Call
+      </h3>
+      <p>
+        Nummer: 
+      </p>
+      <p>
+        Name: 
+        
+         
+        
+      </p>
+      <p>
+        Company: 
+      </p>
+      <p>
+        Ringing...
+      </p>
+    </div>
+  </div>
+</div>
+`;

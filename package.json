@@ -17,19 +17,24 @@
         "wav": "^1.0.2"
     },
     "devDependencies": {
+        "@babel/preset-env": "^7.14.5",
+        "@babel/preset-react": "^7.14.5",
+        "babel-jest": "^27.0.2",
         "eslint": "^7.27.0",
         "eslint-plugin-react": "^7.23.2",
+        "jest": "^27.0.4",
         "prettier": "^2.3.0",
-        "react-scripts": "^4.0.3"
+        "react-scripts": "^4.0.3",
+        "react-test-renderer": "^17.0.2"
     },
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
-        "test": "react-scripts test",
         "eject": "react-scripts eject",
         "server": "node src/webhookServer.js",
         "format": "prettier --write src",
-        "lint": "eslint --fix src"
+        "lint": "eslint --fix src",
+        "test": "jest"
     },
     "eslintConfig": {
         "extends": [
@@ -49,5 +54,10 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
+    },
+    "jest": {
+        "moduleNameMapper": {
+            "\\.(css|less)$": "identity-obj-proxy"
+        }
     }
 }

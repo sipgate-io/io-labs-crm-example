@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders VoicemailTable with example data 1`] = `
+<div
+  className="voicemailContainer"
+>
+  <h2>
+    Voicemails
+  </h2>
+  <table
+    className="voicemailTable"
+  >
+    <colgroup>
+      <col
+        className="numberColumn"
+      />
+      <col />
+      <col
+        className="durationColumn"
+      />
+      <col
+        className="removeColumn"
+      />
+    </colgroup>
+    <tr>
+      <th>
+        Number
+      </th>
+      <th>
+        Text
+      </th>
+      <th>
+        Duration
+      </th>
+      <th />
+    </tr>
+    <tr>
+      <td>
+        unknown
+      </td>
+      <td
+        className="tableText"
+      >
+        <span>
+          Text is hidden
+        </span>
+        <button
+          className="showHideButton"
+          onClick={[Function]}
+        >
+          show
+        </button>
+      </td>
+      <td>
+        25
+         seconds
+      </td>
+      <td>
+        <button
+          className="deleteButton"
+          onClick={[Function]}
+        >
+          remove
+        </button>
+      </td>
+    </tr>
+  </table>
+</div>
+`;
+
+exports[`it renders VoicemailTable without data 1`] = `
+<div
+  className="voicemailContainer"
+>
+  <h2>
+    Voicemails
+  </h2>
+  <table
+    className="voicemailTable"
+  >
+    <colgroup>
+      <col
+        className="numberColumn"
+      />
+      <col />
+      <col
+        className="durationColumn"
+      />
+      <col
+        className="removeColumn"
+      />
+    </colgroup>
+    <tr>
+      <th>
+        Number
+      </th>
+      <th>
+        Text
+      </th>
+      <th>
+        Duration
+      </th>
+      <th />
+    </tr>
+    <tr>
+      <td
+        colSpan={3}
+      >
+        There is no entry
+      </td>
+    </tr>
+  </table>
+</div>
+`;
