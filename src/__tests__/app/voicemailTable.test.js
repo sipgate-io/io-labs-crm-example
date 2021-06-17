@@ -1,6 +1,6 @@
 import renderer from 'react-test-renderer';
 import React from 'react';
-import { VoicemailTable } from '../../src/app/components/VoicemailTable';
+import { VoicemailTable } from '../../app/components/VoicemailTable';
 
 it('it renders VoicemailTable without data', () => {
     const tree = renderer

@@ -30,7 +30,7 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "eject": "react-scripts eject",
-        "server": "node src/server/webhookServer.js",
+        "server": "node src/server/main.js",
         "format": "prettier --write src",
         "lint": "eslint --fix src",
         "test": "jest"

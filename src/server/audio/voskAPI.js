@@ -1,8 +1,8 @@
 import * as vosk from 'vosk';
-import { existsSync } from 'fs';
-import { Readable } from 'stream';
-import { Reader } from 'wav';
-import { emitter } from '../webhookServer.js';
+import {existsSync} from 'fs';
+import {Readable} from 'stream';
+import {Reader} from 'wav';
+import {producer} from '../producerConsumer.js';
 
 const MODEL_PATH = 'model';
 if (!existsSync(MODEL_PATH)) {
@@ -29,7 +29,7 @@ export const getWfReader = () => {
         for await (const data of wfReadable) {
             rec.acceptWaveform(data);
         }
-        emitter.emit('result', rec.finalResult().text);
+        producer.notify('result', rec.finalResult().text);
         rec.free();
     });
     return wfReader;
