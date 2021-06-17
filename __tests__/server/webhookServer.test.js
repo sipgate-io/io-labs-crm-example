@@ -1,4 +1,4 @@
-import {handleNewCallEvent} from "../../webhookServer.js";
+import {handleNewCallEvent} from "../../src/server/webhookServer.js";
 
 test('does nothing', async () => {
     const testNewCallEvent = {

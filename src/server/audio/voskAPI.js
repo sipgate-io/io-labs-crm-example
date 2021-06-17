@@ -2,7 +2,7 @@ import * as vosk from 'vosk';
 import { existsSync } from 'fs';
 import { Readable } from 'stream';
 import { Reader } from 'wav';
-import { emitter } from './webhookServer.js';
+import { emitter } from '../webhookServer.js';
 
 const MODEL_PATH = 'model';
 if (!existsSync(MODEL_PATH)) {

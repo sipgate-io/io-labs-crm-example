@@ -3,9 +3,9 @@ import { getContacts } from './contacts.js';
 import { createSocket } from './socket.js';
 import { getLatestHistoryEntry } from './historyModule.js';
 import * as dot from 'dotenv';
-import { convertMp3ToWav } from './urlConverter.js';
+import { convertMp3ToWav } from './audio/urlConverter.js';
 import { EventEmitter } from 'events';
-import { sendMail } from './mail.js';
+import { sendMail } from './mail/mail.js';
 
 dot.config();
 
