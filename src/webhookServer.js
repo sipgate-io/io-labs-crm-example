@@ -17,6 +17,13 @@ const webhookModule = createWebhookModule();
 
 export const emitter = new EventEmitter();
 
+let contacts;
+try {
+    contacts = getContacts();
+} catch (error) {
+    process.exit(1);
+}
+
 webhookModule
     .createServer({
         port: serverPort,
@@ -30,74 +37,74 @@ webhookModule
                 'Ready for calls 📞'
         );
 
-        let contacts;
-        try {
-            contacts = await getContacts();
-        } catch (error) {
-            console.log(
-                'ERROR: Please provide a contacts.json file in the root directory. More information can be obtained in the README.md'
-            );
-            process.exit(1);
+        webhookServer.onNewCall((newCallEvent) => handleNewCallEvent(newCallEvent, emitIncomingMessage));
+        webhookServer.onHangUp(handleHangUpEvent);
+        webhookServer.onAnswer(handleOnAnswerEvent);
+
+    });
+
+const emitIncomingMessage = (data) => {
+    client.emit('incoming', data);
+}
+
+export async function handleNewCallEvent(newCallEvent, callBack) {
+    try {
+        let number = newCallEvent.from;
+        let name = 'unknown';
+        let surname = 'unknown';
+        let company = 'unknown';
+
+        if (contacts[number]) {
+            name = contacts[number].name;
+            surname = contacts[number].surname;
+            company = contacts[number].company;
         }
 
-        webhookServer.onNewCall(async (newCallEvent) => {
-            try {
-                let number = newCallEvent.from;
-                let name = 'unknown';
-                let surname = 'unknown';
-                let company = 'unknown';
-
-                if (contacts[number]) {
-                    name = contacts[number].name;
-                    surname = contacts[number].surname;
-                    company = contacts[number].company;
-                }
-
-                client.emit('incoming', {
-                    number: number,
-                    name: name,
-                    surname: surname,
-                    company: company,
-                });
-            } catch (error) {
-                console.error(error.message);
-            }
-
-            console.log(
-                `New call from ${newCallEvent.from} to ${newCallEvent.to}`
-            );
+        callBack({
+            number: number,
+            name: name,
+            surname: surname,
+            company: company,
         });
 
-        webhookServer.onHangUp(async (event) => {
-            console.log('Hangup');
-            client.emit('hangup');
-            if (event.cause == 'forwarded') {
-                return;
-            }
-            console.log('fetching history entry...');
-            const historyEntry = await getLatestHistoryEntry();
-            if (
-                historyEntry.source !== event.from ||
-                historyEntry.target !== event.answeringNumber ||
-                historyEntry.status !== 'PICKUP'
-            ) {
-                console.log('no new voicemail');
-                return;
-            }
-            console.log('download and convert speech to text...');
-            convertMp3ToWav(historyEntry.recordingUrl);
-            emitter.once('result', (text) => {
-                client.emit('voicemail', {
-                    text,
-                    number: historyEntry.source,
-                    duration: historyEntry.duration,
-                });
-                sendMail(text, historyEntry);
-            });
-        });
+    } catch (error) {
+        console.error(error.message);
+    }
 
-        webhookServer.onAnswer(() => {
-            console.log('Answer');
-            client.emit('answer');
+    console.log(
+        `New call from ${newCallEvent.from} to ${newCallEvent.to}`
+    );
+}
+
+async function handleHangUpEvent(event) {
+    console.log('Hangup');
+    client.emit('hangup');
+    if (event.cause == 'forwarded') {
+        return;
+    }
+    console.log('fetching history entry...');
+    const historyEntry = await getLatestHistoryEntry();
+    if (
+        historyEntry.source !== event.from ||
+        historyEntry.target !== event.answeringNumber ||
+        historyEntry.status !== 'PICKUP'
+    ) {
+        console.log('no new voicemail');
+        return;
+    }
+    console.log('download and convert speech to text...');
+    convertMp3ToWav(historyEntry.recordingUrl);
+    emitter.once('result', (text) => {
+        client.emit('voicemail', {
+            text,
+            number: historyEntry.source,
+            duration: historyEntry.duration,
         });
+        sendMail(text, historyEntry);
     });
+}
+
+function handleOnAnswerEvent() {
+    console.log('Answer');
+    client.emit('answer');
+}
