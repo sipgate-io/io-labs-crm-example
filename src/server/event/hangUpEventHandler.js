@@ -5,7 +5,7 @@ export const createHandleHangUpEvent = (sendMessage, mailsender, consumer, histo
         console.log('Hangup');
         sendMessage('hangup', {});
         if (hangUpEvent.cause == 'forwarded') {
-            return;
+            return false;
         }
         console.log('fetching history entry...');
         const historyEntry = await historyClient.getLatestHistoryEntry();
@@ -15,7 +15,7 @@ export const createHandleHangUpEvent = (sendMessage, mailsender, consumer, histo
             historyEntry.status !== 'PICKUP'
         ) {
             console.log('no new voicemail');
-            return;
+            return false;
         }
         console.log('download and convert speech to text...');
         convertMp3ToWav(historyEntry.recordingUrl);
@@ -27,5 +27,7 @@ export const createHandleHangUpEvent = (sendMessage, mailsender, consumer, histo
             });
             mailsender.sendMail(text, historyEntry);
         });
+
+        return true;
     }
 }
