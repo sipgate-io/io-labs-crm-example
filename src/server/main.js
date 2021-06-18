@@ -7,6 +7,7 @@ import { mailsender } from './mail/mail.js';
 import { consumer } from './producerConsumer.js';
 import { historyClient } from './historyModule.js';
 import { createHandleAnswerEvent } from './event/answerEventHandler.js';
+import { convertMp3ToWav } from './audio/urlConverter.js';
 
 const socketServer = initSocketServer();
 let contacts;
@@ -25,7 +26,8 @@ initWebhookServer().then(async (webhookServer) => {
             sendMessage,
             mailsender,
             consumer,
-            historyClient
+            historyClient,
+            (url) => convertMp3ToWav(url)
         )
     );
     webhookServer.onAnswer(createHandleAnswerEvent(sendMessage));

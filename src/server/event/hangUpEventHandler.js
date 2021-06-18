@@ -1,10 +1,9 @@
-import { convertMp3ToWav } from '../audio/urlConverter.js';
-
 export const createHandleHangUpEvent = (
     sendMessage,
     mailsender,
     consumer,
-    historyClient
+    historyClient,
+    convert
 ) => {
     return async (hangUpEvent) => {
         console.log('Hangup');
@@ -23,7 +22,7 @@ export const createHandleHangUpEvent = (
             return false;
         }
         console.log('download and convert speech to text...');
-        convertMp3ToWav(historyEntry.recordingUrl);
+        convert(historyEntry.recordingUrl)
         consumer.listen((text) => {
             sendMessage('voicemail', {
                 text,
