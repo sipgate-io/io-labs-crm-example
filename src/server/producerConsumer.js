@@ -9,7 +9,7 @@ export const consumer = {
 }
 
 export const producer = {
-    notify: (data) => {
-        emitter.emit('result', data);
+    notify: (type, data) => {
+        emitter.emit(type, data);
     },
 }
