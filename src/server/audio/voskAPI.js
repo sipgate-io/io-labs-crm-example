@@ -1,8 +1,8 @@
 import * as vosk from 'vosk';
-import {existsSync} from 'fs';
-import {Readable} from 'stream';
-import {Reader} from 'wav';
-import {producer} from '../producerConsumer.js';
+import { existsSync } from 'fs';
+import { Readable } from 'stream';
+import { Reader } from 'wav';
+import { producer } from '../producerConsumer.js';
 
 const MODEL_PATH = 'model';
 if (!existsSync(MODEL_PATH)) {

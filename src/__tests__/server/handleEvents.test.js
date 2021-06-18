@@ -1,10 +1,9 @@
-import {createHandleNewCallEvent} from "../../server/event/newCallEventHandler";
-import {createHandleHangUpEvent} from "../../server/event/hangUpEventHandler";
-import "core-js/stable";
-import "regenerator-runtime/runtime";
+import { createHandleNewCallEvent } from '../../server/event/newCallEventHandler';
+import { createHandleHangUpEvent } from '../../server/event/hangUpEventHandler';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
-
-describe("handleNewCallEvent", () => {
+describe('handleNewCallEvent', () => {
     test("sends a message with label 'incoming' once", () => {
         const testNewCallEvent = {
             callId: '',
@@ -17,15 +16,18 @@ describe("handleNewCallEvent", () => {
             'user[]': ['TestUser'],
             'userId[]': ['123456789'],
             xcid: '',
-        }
+        };
         const sendMessageMock = jest.fn();
-        const handleNewCallEvent = createHandleNewCallEvent(sendMessageMock, {})
+        const handleNewCallEvent = createHandleNewCallEvent(
+            sendMessageMock,
+            {}
+        );
 
         handleNewCallEvent(testNewCallEvent);
         expect(sendMessageMock).toHaveBeenCalledTimes(1);
     });
 
-    test("sets parameter correctly if number is found in contacts", () => {
+    test('sets parameter correctly if number is found in contacts', () => {
         const testNewCallEvent = {
             callId: '',
             direction: 'in',
@@ -37,7 +39,7 @@ describe("handleNewCallEvent", () => {
             'user[]': ['TestUser'],
             'userId[]': ['123456789'],
             xcid: '',
-        }
+        };
 
         let number, name, surname, company;
         const sendMessageMock = jest.fn((label, data) => {
@@ -48,21 +50,21 @@ describe("handleNewCallEvent", () => {
         });
 
         const handleNewCallEvent = createHandleNewCallEvent(sendMessageMock, {
-            "+491234567890": {
-                "name": "Erika",
-                "surname": "Mustermann",
-                "company": "Mustermann GmbH"
-            }
-        })
+            '+491234567890': {
+                name: 'Erika',
+                surname: 'Mustermann',
+                company: 'Mustermann GmbH',
+            },
+        });
 
         handleNewCallEvent(testNewCallEvent);
-        expect(number).toEqual("+491234567890");
-        expect(name).toEqual("Erika");
-        expect(surname).toEqual("Mustermann");
-        expect(company).toEqual("Mustermann GmbH");
+        expect(number).toEqual('+491234567890');
+        expect(name).toEqual('Erika');
+        expect(surname).toEqual('Mustermann');
+        expect(company).toEqual('Mustermann GmbH');
     });
 
-    test("sets parameter to unknown if number is not found in contacts", () => {
+    test('sets parameter to unknown if number is not found in contacts', () => {
         const testNewCallEvent = {
             callId: '',
             direction: 'in',
@@ -74,7 +76,7 @@ describe("handleNewCallEvent", () => {
             'user[]': ['TestUser'],
             'userId[]': ['123456789'],
             xcid: '',
-        }
+        };
 
         let number, name, surname, company;
         const sendMessageMock = jest.fn((label, data) => {
@@ -85,158 +87,167 @@ describe("handleNewCallEvent", () => {
         });
 
         const handleNewCallEvent = createHandleNewCallEvent(sendMessageMock, {
-            "+499999999999": {
-                "name": "Erika",
-                "surname": "Mustermann",
-                "company": "Mustermann GmbH"
-            }
-        })
+            '+499999999999': {
+                name: 'Erika',
+                surname: 'Mustermann',
+                company: 'Mustermann GmbH',
+            },
+        });
 
         handleNewCallEvent(testNewCallEvent);
-        expect(number).toEqual("+491234567890");
-        expect(name).toEqual("unknown");
-        expect(surname).toEqual("unknown");
-        expect(company).toEqual("unknown");
+        expect(number).toEqual('+491234567890');
+        expect(name).toEqual('unknown');
+        expect(surname).toEqual('unknown');
+        expect(company).toEqual('unknown');
     });
-})
+});
 
-
-describe("handleHangUpEvent", () => {
+describe('handleHangUpEvent', () => {
     test("sends a message with label 'hangup' once", async () => {
-
         const testHangUpEvent = {
-            event: "hangup",
-            cause: "normalClearing",
-            callId: "id_12345",
-            from: "12345567",
-            to: "4915791234567",
-            direction: "in",
-            answeringNumber: "12345678"
-        }
+            event: 'hangup',
+            cause: 'normalClearing',
+            callId: 'id_12345',
+            from: '12345567',
+            to: '4915791234567',
+            direction: 'in',
+            answeringNumber: '12345678',
+        };
 
         const historyClient = {
             getLatestHistoryEntry: () => {
                 return {
-                    source: "12345567",
-                    target: "12345678",
-                    status: "PICKUP",
-                    recordingUrl: "https://static.sipgate.com/examples/wav/example.wav"
-                }
-            }
-        }
+                    source: '12345567',
+                    target: '12345678',
+                    status: 'PICKUP',
+                    recordingUrl:
+                        'https://static.sipgate.com/examples/wav/example.wav',
+                };
+            },
+        };
 
         const sendMessageMock = jest.fn();
         const listen = jest.fn();
-        const handleHangUpEvent = createHandleHangUpEvent(sendMessageMock, {
-            sendMail: () => {}
-        }, {
-            listen
-        }, historyClient)
+        const handleHangUpEvent = createHandleHangUpEvent(
+            sendMessageMock,
+            {
+                sendMail: () => {},
+            },
+            {
+                listen,
+            },
+            historyClient
+        );
 
         const result = await handleHangUpEvent(testHangUpEvent);
-        
+
         expect(sendMessageMock).toHaveBeenCalledTimes(1);
         expect(listen).toHaveBeenCalledTimes(1);
         expect(result).toBe(true);
     });
 
-    test("returns when hang up event is forwarded", async () => {
-
+    test('returns when hang up event is forwarded', async () => {
         const testHangUpEvent = {
-            event: "hangup",
-            cause: "forwarded",
-            callId: "id_12345",
-            from: "12345567",
-            to: "4915791234567",
-            direction: "in",
-            answeringNumber: "12345678"
-        }
+            event: 'hangup',
+            cause: 'forwarded',
+            callId: 'id_12345',
+            from: '12345567',
+            to: '4915791234567',
+            direction: 'in',
+            answeringNumber: '12345678',
+        };
 
         const sendMessageMock = jest.fn();
-        const handleHangUpEvent = createHandleHangUpEvent(sendMessageMock, {
-            sendMail: () => {
+        const handleHangUpEvent = createHandleHangUpEvent(
+            sendMessageMock,
+            {
+                sendMail: () => {},
+            },
+            {
+                listen: () => {},
             }
-        }, {
-            listen: () => {
-            }
-        })
+        );
 
         const result = await handleHangUpEvent(testHangUpEvent);
-        
+
         expect(result).toBe(false);
     });
 
-    test("returns when there is no new voicemail", async () => {
-
+    test('returns when there is no new voicemail', async () => {
         const testHangUpEvent = {
-            event: "hangup",
-            cause: "normalClearing",
-            callId: "id_12345",
-            from: "12345567",
-            to: "4915791234567",
-            direction: "in",
-            answeringNumber: "12345678"
-        }
+            event: 'hangup',
+            cause: 'normalClearing',
+            callId: 'id_12345',
+            from: '12345567',
+            to: '4915791234567',
+            direction: 'in',
+            answeringNumber: '12345678',
+        };
 
         const historyClient = {
             getLatestHistoryEntry: () => {
                 return {
-                    source: "12345567",
-                    target: "12345678",
-                    status: "CALL",
-                    recordingUrl: ""
-                }
-            }
-        }
+                    source: '12345567',
+                    target: '12345678',
+                    status: 'CALL',
+                    recordingUrl: '',
+                };
+            },
+        };
 
         const sendMessageMock = jest.fn();
-        const handleHangUpEvent = createHandleHangUpEvent(sendMessageMock, {
-            sendMail: () => {
-            }
-        }, {
-            listen: () => {
-            }
-        }, historyClient)
+        const handleHangUpEvent = createHandleHangUpEvent(
+            sendMessageMock,
+            {
+                sendMail: () => {},
+            },
+            {
+                listen: () => {},
+            },
+            historyClient
+        );
 
         const result = await handleHangUpEvent(testHangUpEvent);
-        
+
         expect(result).toBe(false);
     });
 
-
-    test("calls sendMail when the call is redirected to voicemail", async () => {
-
+    test('calls sendMail when the call is redirected to voicemail', async () => {
         const testHangUpEvent = {
-            event: "hangup",
-            cause: "normalClearing",
-            callId: "id_12345",
-            from: "12345567",
-            to: "4915791234567",
-            direction: "in",
-            answeringNumber: "12345678"
-        }
+            event: 'hangup',
+            cause: 'normalClearing',
+            callId: 'id_12345',
+            from: '12345567',
+            to: '4915791234567',
+            direction: 'in',
+            answeringNumber: '12345678',
+        };
 
         const historyClient = {
             getLatestHistoryEntry: () => {
                 return {
-                    source: "12345567",
-                    target: "12345678",
-                    status: "PICKUP",
-                    recordingUrl: "https://static.sipgate.com/examples/wav/example.wav"
-                }
-            }
-        }
+                    source: '12345567',
+                    target: '12345678',
+                    status: 'PICKUP',
+                    recordingUrl:
+                        'https://static.sipgate.com/examples/wav/example.wav',
+                };
+            },
+        };
 
         const sendMessageMock = jest.fn();
-        const handleHangUpEvent = createHandleHangUpEvent(sendMessageMock, {
-            sendMail: () => {
-            }
-        }, {
-            listen: () => {
-            }
-        }, historyClient)
+        const handleHangUpEvent = createHandleHangUpEvent(
+            sendMessageMock,
+            {
+                sendMail: () => {},
+            },
+            {
+                listen: () => {},
+            },
+            historyClient
+        );
 
         await handleHangUpEvent(testHangUpEvent);
         expect(sendMessageMock).toHaveBeenCalledTimes(1);
     });
-})
+});

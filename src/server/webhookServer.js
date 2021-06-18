@@ -1,4 +1,4 @@
-import {createWebhookModule} from 'sipgateio';
+import { createWebhookModule } from 'sipgateio';
 import * as dot from 'dotenv';
 
 export function initWebhookServer() {
@@ -13,13 +13,14 @@ export function initWebhookServer() {
         .createServer({
             port: serverPort,
             serverAddress,
-        }).then( (webhookServer) => {
+        })
+        .then((webhookServer) => {
             console.log(
                 `Server running at ${serverAddress}\n` +
-                'Please set this URL for incoming calls at https://console.sipgate.com/webhooks/urls\n' +
-                "ProTip: To see how to do that automatically, check out the example at 'examples/settings/settings_set_url_incoming.ts'\n" +
-                'Ready for calls 📞'
+                    'Please set this URL for incoming calls at https://console.sipgate.com/webhooks/urls\n' +
+                    "ProTip: To see how to do that automatically, check out the example at 'examples/settings/settings_set_url_incoming.ts'\n" +
+                    'Ready for calls 📞'
             );
             return webhookServer;
-        })
+        });
 }

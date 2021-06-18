@@ -1,6 +1,6 @@
-import {createHistoryModule, sipgateIO} from 'sipgateio';
+import { createHistoryModule, sipgateIO } from 'sipgateio';
 import * as dot from 'dotenv';
-import {promisify} from 'util';
+import { promisify } from 'util';
 
 const setTimeoutPromise = promisify(setTimeout);
 
@@ -8,7 +8,7 @@ dot.config();
 
 const sipgateTokenID = process.env.SIPGATE_TOKEN_ID;
 const sipgateToken = process.env.SIPGATE_TOKEN;
-const client = sipgateIO({tokenId: sipgateTokenID, token: sipgateToken});
+const client = sipgateIO({ tokenId: sipgateTokenID, token: sipgateToken });
 const historyModule = createHistoryModule(client);
 
 export const historyClient = {
@@ -21,5 +21,5 @@ export const historyClient = {
             }
         );
         return historyEntries[0];
-    }
-}
+    },
+};

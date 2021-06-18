@@ -18,13 +18,10 @@ export const createHandleNewCallEvent = (sendMessage, contacts) => {
                 surname: surname,
                 company: company,
             });
-
         } catch (error) {
             console.error(error.message);
         }
 
-        console.log(
-            `New call from ${newCallEvent.from} to ${newCallEvent.to}`
-        );
-    }
-}
+        console.log(`New call from ${newCallEvent.from} to ${newCallEvent.to}`);
+    };
+};

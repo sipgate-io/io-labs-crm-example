@@ -1,6 +1,11 @@
-import {convertMp3ToWav} from "../audio/urlConverter.js";
+import { convertMp3ToWav } from '../audio/urlConverter.js';
 
-export const createHandleHangUpEvent = (sendMessage, mailsender, consumer, historyClient) => {
+export const createHandleHangUpEvent = (
+    sendMessage,
+    mailsender,
+    consumer,
+    historyClient
+) => {
     return async (hangUpEvent) => {
         console.log('Hangup');
         sendMessage('hangup', {});
@@ -29,5 +34,5 @@ export const createHandleHangUpEvent = (sendMessage, mailsender, consumer, histo
         });
 
         return true;
-    }
-}
+    };
+};

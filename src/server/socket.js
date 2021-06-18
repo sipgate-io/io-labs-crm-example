@@ -1,5 +1,5 @@
-import {createServer} from 'http';
-import {Server} from 'socket.io';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 
 export function initSocketServer() {
     const httpServer = createServer();
@@ -17,4 +17,4 @@ export const createSendSocketMessage = (socketServer) => {
     return (label, data) => {
         socketServer.emit(label, data);
     };
-}
+};
