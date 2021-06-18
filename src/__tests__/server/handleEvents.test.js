@@ -146,7 +146,11 @@ describe('handleHangUpEvent', () => {
         await handleHangUpEvent(testHangUpEvent);
 
         expect(sendMessageMock).toHaveBeenCalledTimes(1);
-        expect(sendMessageMock).toHaveBeenNthCalledWith(1,'hangup', expect.anything())
+        expect(sendMessageMock).toHaveBeenNthCalledWith(
+            1,
+            'hangup',
+            expect.anything()
+        );
         expect(listen).toHaveBeenCalledTimes(1);
         expect(convert).toHaveBeenCalledTimes(1);
     });
@@ -180,7 +184,11 @@ describe('handleHangUpEvent', () => {
 
         await handleHangUpEvent(testHangUpEvent);
         expect(sendMessageMock).toHaveBeenCalledTimes(1);
-        expect(sendMessageMock).toHaveBeenNthCalledWith(1,'hangup', expect.anything())
+        expect(sendMessageMock).toHaveBeenNthCalledWith(
+            1,
+            'hangup',
+            expect.anything()
+        );
         expect(listen).toHaveBeenCalledTimes(0);
         expect(convert).toHaveBeenCalledTimes(0);
     });
@@ -225,7 +233,11 @@ describe('handleHangUpEvent', () => {
 
         await handleHangUpEvent(testHangUpEvent);
         expect(sendMessageMock).toHaveBeenCalledTimes(1);
-        expect(sendMessageMock).toHaveBeenNthCalledWith(1,'hangup', expect.anything())
+        expect(sendMessageMock).toHaveBeenNthCalledWith(
+            1,
+            'hangup',
+            expect.anything()
+        );
         expect(listen).toHaveBeenCalledTimes(0);
         expect(convert).toHaveBeenCalledTimes(0);
     });
@@ -233,16 +245,17 @@ describe('handleHangUpEvent', () => {
 
 describe('handleAnswerEvent', () => {
     test("sends a message with label 'answer' once", async () => {
-
         const sendMessageMock = jest.fn();
 
-        const handleAnswerEvent = createHandleAnswerEvent(
-            sendMessageMock
-        );
+        const handleAnswerEvent = createHandleAnswerEvent(sendMessageMock);
 
         await handleAnswerEvent();
 
         expect(sendMessageMock).toHaveBeenCalledTimes(1);
-        expect(sendMessageMock).toHaveBeenNthCalledWith(1,'answer', expect.anything())
+        expect(sendMessageMock).toHaveBeenNthCalledWith(
+            1,
+            'answer',
+            expect.anything()
+        );
     });
 });

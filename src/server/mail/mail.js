@@ -9,6 +9,13 @@ const mailTo = process.env.MAIL_TO;
 
 export const mailsender = {
     sendMail: async (text, historyEntry) => {
+        if (!mailFrom || !mailTo) {
+            console.log(
+                'SendMail: no mail sender or recipients, abort sending mail.'
+            );
+            return;
+        }
+
         // Generate test SMTP service account from ethereal.email
         // Only needed if you don't have a real mail account for testing
         let testAccount = await nodemailer.createTestAccount();

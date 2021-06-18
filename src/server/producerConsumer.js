@@ -3,8 +3,8 @@ import { EventEmitter } from 'events';
 const emitter = new EventEmitter();
 
 export const consumer = {
-    listen: (callback) => {
-        emitter.once('result', callback);
+    listen: (type, callback) => {
+        emitter.once(type, callback);
     },
 };
 

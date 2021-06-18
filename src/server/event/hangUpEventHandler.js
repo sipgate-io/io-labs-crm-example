@@ -8,8 +8,8 @@ export const createHandleHangUpEvent = (
     return async (hangUpEvent) => {
         console.log('Hangup');
         sendMessage('hangup', {});
-        if (hangUpEvent.cause == 'forwarded') {
-            return false;
+        if (hangUpEvent.cause != 'normalClearing') {
+            return;
         }
         console.log('fetching history entry...');
         const historyEntry = await historyClient.getLatestHistoryEntry();
@@ -19,11 +19,11 @@ export const createHandleHangUpEvent = (
             historyEntry.status !== 'PICKUP'
         ) {
             console.log('no new voicemail');
-            return false;
+            return;
         }
         console.log('download and convert speech to text...');
-        convert(historyEntry.recordingUrl)
-        consumer.listen((text) => {
+        convert(historyEntry.recordingUrl);
+        consumer.listen('result', (text) => {
             sendMessage('voicemail', {
                 text,
                 number: historyEntry.source,
@@ -31,7 +31,5 @@ export const createHandleHangUpEvent = (
             });
             mailsender.sendMail(text, historyEntry);
         });
-
-        return true;
     };
 };
