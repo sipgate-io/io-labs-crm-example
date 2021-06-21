@@ -30,12 +30,16 @@ function App() {
     );
 
     useEffect(() => {
-        ioClient.on('incoming', (callInfo) =>
-            setState({ ...state, ...callInfo, callStatus: callStatus.RINGING })
-        );
-        ioClient.on('answer', () =>
-            setState({ ...state, callStatus: callStatus.ACTIVE })
-        );
+        ioClient.on('incoming', (callInfo) => {
+            if(callInfo.ringing) {
+                setState({ ...state, ...callInfo, callStatus: callStatus.RINGING })
+            }
+        });
+        ioClient.on('answer', (callInfo) => {
+            if (callInfo.displayCallTimer) {
+                setState({ ...state, callStatus: callStatus.ACTIVE })
+            }
+        });
         ioClient.on('hangup', () => setState(initialState));
         ioClient.on('voicemail', (voiceMail) => {
             setVoicemails(

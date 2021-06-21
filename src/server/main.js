@@ -30,5 +30,7 @@ initWebhookServer().then(async (webhookServer) => {
             (url) => convertMp3ToWav(url)
         )
     );
-    webhookServer.onAnswer(createHandleAnswerEvent(sendMessage));
+    webhookServer.onAnswer((onAnswerEvent) => {
+        createHandleAnswerEvent(sendMessage)(onAnswerEvent);
+    });
 });

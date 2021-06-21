@@ -4,20 +4,28 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import { createHandleAnswerEvent } from '../../server/event/answerEventHandler';
 
+const makeTestNewCallEvent = (from, users) => {
+    return {
+        from,
+        users,
+    };
+};
+
+const testHangUpEvent = {
+    event: 'hangup',
+    cause: 'normalClearing',
+    callId: 'id_12345',
+    from: '12345567',
+    to: '4915791234567',
+    direction: 'in',
+    answeringNumber: '12345678',
+};
+
 describe('handleNewCallEvent', () => {
     test("sends a message with label 'incoming' once", () => {
-        const testNewCallEvent = {
-            callId: '',
-            direction: 'in',
-            event: 'newCall',
-            from: '4912354678',
-            'fullUserId[]': ['123456789'],
-            originalCallId: '',
-            to: '49999999',
-            'user[]': ['TestUser'],
-            'userId[]': ['123456789'],
-            xcid: '',
-        };
+        const testNewCallEvent = makeTestNewCallEvent('+491234567890', [
+            'TestUser',
+        ]);
         const sendMessageMock = jest.fn();
         const handleNewCallEvent = createHandleNewCallEvent(
             sendMessageMock,
@@ -29,25 +37,17 @@ describe('handleNewCallEvent', () => {
     });
 
     test('sets parameter correctly if number is found in contacts', () => {
-        const testNewCallEvent = {
-            callId: '',
-            direction: 'in',
-            event: 'newCall',
-            from: '+491234567890',
-            'fullUserId[]': ['123456789'],
-            originalCallId: '',
-            to: '49999999',
-            'user[]': ['TestUser'],
-            'userId[]': ['123456789'],
-            xcid: '',
-        };
+        const testNewCallEvent = makeTestNewCallEvent('+491234567890', [
+            'TestUser',
+        ]);
 
-        let number, name, surname, company;
+        let number, name, surname, company, ringing;
         const sendMessageMock = jest.fn((label, data) => {
             number = data.number;
             name = data.name;
             surname = data.surname;
             company = data.company;
+            ringing = data.ringing;
         });
 
         const handleNewCallEvent = createHandleNewCallEvent(sendMessageMock, {
@@ -66,18 +66,9 @@ describe('handleNewCallEvent', () => {
     });
 
     test('sets parameter to unknown if number is not found in contacts', () => {
-        const testNewCallEvent = {
-            callId: '',
-            direction: 'in',
-            event: 'newCall',
-            from: '+491234567890',
-            'fullUserId[]': ['123456789'],
-            originalCallId: '',
-            to: '49999999',
-            'user[]': ['TestUser'],
-            'userId[]': ['123456789'],
-            xcid: '',
-        };
+        const testNewCallEvent = makeTestNewCallEvent('+491234567890', [
+            'TestUser',
+        ]);
 
         let number, name, surname, company;
         const sendMessageMock = jest.fn((label, data) => {
@@ -105,16 +96,6 @@ describe('handleNewCallEvent', () => {
 
 describe('handleHangUpEvent', () => {
     test("sends a message with label 'hangup' once", async () => {
-        const testHangUpEvent = {
-            event: 'hangup',
-            cause: 'normalClearing',
-            callId: 'id_12345',
-            from: '12345567',
-            to: '4915791234567',
-            direction: 'in',
-            answeringNumber: '12345678',
-        };
-
         const historyClient = {
             getLatestHistoryEntry: () => {
                 return {
@@ -194,16 +175,6 @@ describe('handleHangUpEvent', () => {
     });
 
     test('returns when there is no new voicemail', async () => {
-        const testHangUpEvent = {
-            event: 'hangup',
-            cause: 'normalClearing',
-            callId: 'id_12345',
-            from: '12345567',
-            to: '4915791234567',
-            direction: 'in',
-            answeringNumber: '12345678',
-        };
-
         const historyClient = {
             getLatestHistoryEntry: () => {
                 return {
@@ -245,11 +216,15 @@ describe('handleHangUpEvent', () => {
 
 describe('handleAnswerEvent', () => {
     test("sends a message with label 'answer' once", async () => {
+        const testAnswerEvent = {
+            fullUserId: 'voicemail',
+        };
+
         const sendMessageMock = jest.fn();
 
         const handleAnswerEvent = createHandleAnswerEvent(sendMessageMock);
 
-        await handleAnswerEvent();
+        await handleAnswerEvent(testAnswerEvent);
 
         expect(sendMessageMock).toHaveBeenCalledTimes(1);
         expect(sendMessageMock).toHaveBeenNthCalledWith(
