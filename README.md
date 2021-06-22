@@ -34,6 +34,10 @@ cd io-labs-crm-example
 npm install
 ```
 
+### About Webhooks
+
+For our CRM example, we will make use of [sipgate.io](https://www.sipgate.io/push-api/api-references)'s Push API using webhooks. In this way, we can get real-time information on phone calls without constantly polling the REST API. Note that any time a call is forwarded, either to another phone or your voicemail, a new set of newCallEvent, answerEvent and hangUpEvent are triggered.
+
 ### Download a Vosk language model
 
 First, you need a speech recognition model for your language. You can download a pre-trained model from the [Vosk project page](https://alphacephei.com/vosk/models).
